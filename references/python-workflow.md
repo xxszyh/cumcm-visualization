@@ -17,19 +17,26 @@
 - 输入文件与字段；
 - 单位和过滤范围；
 - 统计量、误差条或置信区间定义；
-- 输出 PNG 路径。
+- 输出 PNG 路径与论文插入宽度。
 
-所有数据图从真实 CSV/XLSX/JSON 或模型输出读取，不在正式图脚本里生成随机数据。
+所有数据图从真实 CSV/XLSX/JSON 或模型输出读取，不在正式图脚本里生成随机数据。五节点、代表性路径等简化图必须显式标注为机制示意。
 
 ## 中文与样式
 
-使用 scripts/cumcm_plot_style.py 的 configure_style 和 save_figure。脚本按 Microsoft YaHei、SimHei、Noto Sans CJK SC 等顺序选择可用中文字体。
+使用 `scripts/cumcm_plot_style.py` 的 `configure_style` 和 `save_figure`。脚本按 Microsoft YaHei、SimHei、Noto Sans CJK SC 等顺序选择可用中文字体。
 
-- 白底，正文深灰，网格线低对比。
+- 白底，正文深灰，网格线低对比；节点填充默认透明，不把白色节点当作默认遮罩。
 - 同一方法在全文使用同一颜色。
 - 折线同时使用颜色、线型或标记编码。
 - 热力图使用感知均匀色图；有正负方向时用以 0 为中心的发散色图。
 - 图例不遮挡数据，固定类别优先直接标注。
+
+## 网络、路径与标签细节
+
+- 绘制顺序通常为辅助边 → 主路径 → 次路径 → 节点边框 → 节点文字；箭头端点停在节点边界。
+- 共享边采用单层、并行或分段策略，禁止让虚线叠在实线上并在间隙露出另一种颜色。
+- 边权标签默认不用 `bbox` 填充框；先手动偏移，必要时使用白色描边但保持透明填充。
+- 标题与结论句放在独立留白区，坐标区内不放长段落；用最终插入尺寸检查字号和标签间距。
 
 ## 常用结果图
 
@@ -39,17 +46,21 @@
 - 方案比较：点图优先于柱状图；若有不确定性，显示区间。
 - 多目标优化：Pareto 散点标出最终选点及选择依据。
 - 空间路径：保持等比例坐标，节点/路径/禁区分别编码。
+- 高维成本空间：只在三维本身需要比较时使用 3D；KD-tree、邻域或分区解释可用二维投影，但必须声明投影轴和实际计算维度。
 
 ## 导出
 
-- 使用 fig.savefig(..., dpi=300, bbox_inches="tight", facecolor="white")。
+- 使用 `fig.savefig(..., dpi=300, bbox_inches="tight", facecolor="white")`。
 - 默认 PNG；可额外保留 SVG/PDF，但不能替代 PNG。
 - 论文单栏常用宽度约 6–7 英寸，双栏或复杂组合图 10–12 英寸。
-- 保存后重新打开 PNG，检查像素、颜色模式和空白边界。
+- 保存后重新打开 PNG，检查像素、颜色模式、透明节点、空白边界、标题和外置注释。
+- 若 tight crop 造成像素宽度不足，适当提高 DPI 而不改变物理插入尺寸；不要只为过验证而把图放大到占满页面。
 
 ## 可复现性
 
-- 将正式脚本放到 paper_output/code/visualization/。
+- 将正式脚本放到 `paper_output/code/visualization/`。
 - 固定排序和类别顺序；随机过程固定种子并注明。
 - 不在脚本中硬编码最终结果；结果必须来自可追溯输入。
-- 图形改动后同步更新 figure_index.json 和正文图题。
+- 图形改动后同步更新 `figure_index.json` 和正文图题。
+
+完成后同时阅读 [visual-design-patterns.md](visual-design-patterns.md) 与 [qa-checklist.md](qa-checklist.md)。
