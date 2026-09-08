@@ -1,0 +1,6 @@
+interface:
+  display_name: "CUMCM 建模可视化"
+  short_description: "把算法、模型与计算结果转成可编辑、可追溯的竞赛论文图"
+  default_prompt: "使用 $cumcm-visualization 为当前数学建模论文规划并生成逻辑图与结果图。"
+policy:
+  allow_implicit_invocation: true
