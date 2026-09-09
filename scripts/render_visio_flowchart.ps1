@@ -18,7 +18,8 @@ function Release-ComObject($Object) {
 }
 
 $core = Join-Path $PSScriptRoot '_render_visio_core.ps1'
-& $core -SpecPath $SpecPath -OutputBase $OutputBase -Visible:$Visible -Force:$Force
+$coreJson = & $core -SpecPath $SpecPath -OutputBase $OutputBase -Visible:$Visible -Force:$Force
+$coreResult = $coreJson | ConvertFrom-Json
 
 $basePath = [IO.Path]::GetFullPath($OutputBase)
 $vsdxPath = "$basePath.vsdx"
@@ -31,8 +32,12 @@ $previousResolution = 0
 $previousWidth = 0.0
 $previousHeight = 0.0
 $previousUnits = 0
+$settingsCaptured = $false
 
 try {
+    # This is a dedicated hidden COM instance.  Its raster settings are
+    # captured before the 300-DPI export and restored before the instance is
+    # closed, so the user's interactive Visio settings are not retained.
     $visio = New-Object -ComObject Visio.Application
     $visio.Visible = $false
     $settings = $visio.Settings
@@ -51,6 +56,7 @@ try {
     $previousWidth = $widthRef.Value
     $previousHeight = $heightRef.Value
     $previousUnits = $unitsRef.Value
+    $settingsCaptured = $true
 
     $settings.SetRasterExportResolution(3, 300.0, 300.0, 0)
     $doc = $visio.Documents.Open($vsdxPath)
@@ -65,9 +71,21 @@ try {
     $doc.Close()
     $doc = $null
     $visio.Quit()
+
+    [pscustomobject]@{
+        status = 'PASS'
+        vsdx = $vsdxPath
+        png = $pngPath
+        typography_report = $coreResult.typography_report
+        nodes = $coreResult.nodes
+        edges = $coreResult.edges
+        final_width_in = $coreResult.final_width_in
+        scale_factor = $coreResult.scale_factor
+        raster_dpi = 300
+    } | ConvertTo-Json
 }
 finally {
-    if ($settings) {
+    if ($settings -and $settingsCaptured) {
         try {
             $settings.SetRasterExportResolution(
                 $previousResolution,
