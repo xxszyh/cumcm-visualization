@@ -1,6 +1,9 @@
 # cumcm-visualization
 
-面向 CUMCM 数学建模论文的可复现可视化 Skill。它用于规划、生成并审校模型框架图、算法流程图与结果图，默认导出论文可用 PNG；逻辑图同时保留可编辑的 Visio VSDX 和 JSON 结构规格。
+[![DeepSeek Harness](https://img.shields.io/badge/DeepSeek_Harness-DSH_Skill-4f46e5)](https://github.com/deepseek-ai/deepseek-harness)
+[![CUMCM](https://img.shields.io/badge/CUMCM-论文可视化-d97706)](https://www.mcm.edu.cn/)
+
+兼容 DeepSeek Harness（DSH）、Codex 及其他 `SKILL.md` Agent 的可复现建模可视化技能。它以 CUMCM 论文为核心，也适用于其他数学建模竞赛和项目，用于规划、生成并审校模型框架图、算法流程图与结果图；默认导出论文可用 PNG，逻辑图同时保留可编辑的 Visio VSDX 和 JSON 结构规格。
 
 ## 主要能力
 
@@ -32,6 +35,40 @@
 - PowerShell 7
 - Python 3 与 Pillow（PNG 校验）
 
+仅规划图组、审校已有图片或使用纯 Python 绘图时不要求安装 Visio；VSDX 生成和 Visio 自动导出仅在 Windows + Microsoft Visio 环境可用。
+
+## 安装
+
+### DeepSeek Harness（DSH）
+
+DSH 原生识别目录型 Agent Skill。项目级安装适合只在当前建模仓库启用：
+
+```sh
+git clone https://github.com/xxszyh/cumcm-visualization.git .dsh/skills/cumcm-visualization
+```
+
+用户级安装可在任意项目中使用：
+
+```sh
+git clone https://github.com/xxszyh/cumcm-visualization.git ~/.dsh/skills/cumcm-visualization
+```
+
+Windows PowerShell 中可使用：
+
+```powershell
+git clone https://github.com/xxszyh/cumcm-visualization.git "$HOME/.dsh/skills/cumcm-visualization"
+```
+
+安装后启动或重启 DSH 会话；直接描述论文配图任务，或明确点名 `cumcm-visualization` 即可。DSH 也识别项目级 `.agents/skills/` 和用户级 `~/.agents/skills/`，便于与其他 Agent 共享同一份技能。发现顺序和格式说明见 [DSH Skills 官方文档](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)。
+
+### Codex / 其他 Agent Skills 客户端
+
+将仓库复制到对应客户端的 skills 目录；例如 Codex：
+
+```text
+~/.codex/skills/cumcm-visualization/
+```
+
 ## 使用
 
 将本仓库安装为 Codex Skill 后，可提出类似请求：
@@ -39,6 +76,10 @@
 > 根据当前数学模型生成模型框架图和算法流程图，PNG 用于论文，逻辑图保留 VSDX 源文件。
 
 具体输入约束、版式规则和交付规范见 `SKILL.md`。
+
+## 关键词
+
+`DSH` · `DeepSeek Harness` · `CUMCM` · `数学建模` · `mathematical modeling` · `data visualization` · `scientific visualization` · `论文配图` · `Visio` · `Matplotlib`
 
 ### 文件与追溯检查
 

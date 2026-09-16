@@ -1,6 +1,9 @@
 ---
 name: cumcm-visualization
-description: 为 CUMCM 数学建模论文规划、生成并审校模型框架图、算法流程图与结果可视化；默认输出 PNG，逻辑图可用 Visio 并保留 VSDX，数据图保留可复现代码。适用于国赛论文配图、模型解释、算法展示、结果比较和稳健性验证；不用于脱离真实模型与数据的装饰性配图。
+description: 为 CUMCM 及其他数学建模竞赛或项目规划、生成并审校模型框架图、算法流程图与结果可视化；默认输出 PNG，逻辑图可用 Visio 并保留 VSDX，数据图保留可复现代码。适用于论文配图、模型解释、算法展示、结果比较和稳健性验证；不用于脱离真实模型与数据的装饰性配图。
+metadata:
+  compatibility: "Codex, DeepSeek Harness (DSH), Agent Skills"
+  tags: "dsh, deepseek-harness, cumcm, mathematical-modeling, data-visualization, scientific-visualization"
 ---
 
 # CUMCM 建模可视化
