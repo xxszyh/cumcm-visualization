@@ -21,6 +21,8 @@
 
 所有数据图从真实 CSV/XLSX/JSON 或模型输出读取，不在正式图脚本里生成随机数据。五节点、代表性路径等简化图必须显式标注为机制示意。
 
+涉及数值模型对照时，先按 [model-comparison.md](model-comparison.md) 核对计算完成状态、输入版本、实际时空坐标和误差定义。绘图读取已有计算结果，不因修改图题或样式而重跑昂贵求解。随机过程的情景范围不能直接标成置信区间。
+
 ## 中文与样式
 
 使用 `scripts/cumcm_plot_style.py` 的 `configure_style` 和 `save_figure`。脚本按 Microsoft YaHei、SimHei、Noto Sans CJK SC 等顺序选择可用中文字体。
