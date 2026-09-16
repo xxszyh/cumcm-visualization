@@ -26,9 +26,15 @@ def main() -> int:
 
     try:
         with Image.open(path) as image:
+            if image.format != "PNG":
+                errors.append(f"decoded format is {image.format}, not PNG")
             image.verify()
         with Image.open(path) as image:
-            image = image.convert("RGB")
+            dpi = image.info.get("dpi")
+            # Inspect the visible result on the paper's white background, not hidden RGB pixels.
+            rgba = image.convert("RGBA")
+            background = Image.new("RGBA", rgba.size, "white")
+            image = Image.alpha_composite(background, rgba).convert("RGB")
             width, height = image.size
             if path.suffix.lower() != ".png":
                 errors.append("file extension is not .png")
@@ -50,7 +56,6 @@ def main() -> int:
                 if left == 0 or top == 0 or right == width or bottom == height:
                     warnings.append("content touches an image boundary; inspect for clipping")
 
-            dpi = image.info.get("dpi")
             if dpi and min(dpi) < 250:
                 warnings.append(f"embedded DPI is {dpi}, below the preferred 300")
     except Exception as exc:
@@ -64,6 +69,7 @@ def main() -> int:
         "height": height,
         "errors": errors,
         "warnings": warnings,
+        "scope": "File/render checks only; not a verification of data, units, or model claims.",
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if not errors else 1

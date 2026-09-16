@@ -1,6 +1,9 @@
 ---
 name: cumcm-visualization
-description: 为 CUMCM 数学建模论文规划、生成并审校模型框架图、算法流程图与结果可视化；默认输出 PNG，逻辑图可用 Visio 并保留 VSDX，数据图保留可复现代码。适用于国赛论文配图、模型解释、算法展示、结果比较和稳健性验证；不用于脱离真实模型与数据的装饰性配图。
+description: 为 CUMCM 及其他数学建模竞赛或项目规划、生成并审校模型框架图、算法流程图与结果可视化；默认输出 PNG，逻辑图可用 Visio 并保留 VSDX，数据图保留可复现代码。适用于论文配图、模型解释、算法展示、结果比较和稳健性验证；不用于脱离真实模型与数据的装饰性配图。
+metadata:
+  compatibility: "Codex, DeepSeek Harness (DSH), Agent Skills"
+  tags: "dsh, deepseek-harness, cumcm, mathematical-modeling, data-visualization, scientific-visualization"
 ---
 
 # CUMCM 建模可视化
@@ -19,6 +22,8 @@ description: 为 CUMCM 数学建模论文规划、生成并审校模型框架图
 6. **版面尺寸**：预先决定单栏、双栏或页内插图宽度，不先画一张无限大的图再硬塞进论文。
 
 信息不足时，先从现有赛题、模型说明、代码和结果文件中提取，不凭空补造步骤或数值。若缺少影响图义的关键输入，明确列出缺口再询问用户。示意数据必须在图题、图内或 README 中明确标为“示意”，不得冒充实测结果。
+
+涉及数值模型对照、移动边界、收敛性或敏感性图时，读取 [模型比较与数据追溯](references/model-comparison.md)。先核对运行是否完成、输入版本及实际时空坐标；区分数值误差、结构差异与统计不确定性，不把输出的小数位数当作精度证据。
 
 ## 全局版式原则（经多轮论文图迭代验证）
 
@@ -94,6 +99,8 @@ description: 为 CUMCM 数学建模论文规划、生成并审校模型框架图
 
 可用 `scripts/init_figure_workspace.py` 初始化目录；Visio 逻辑图可用 `scripts/render_visio_flowchart.ps1`；PNG 用 `scripts/validate_png.py` 做基础门禁。
 
+用 `scripts/validate_figure_index.py` 检查索引中的文件和已声明哈希；定量图交付可加 `--strict-provenance` 要求输入哈希及计算完成记录。文件检查通过不代表单位、模型或图中结论已验证，仍需核对源数据和人工审图。
+
 ## 论文图的硬约束
 
 - 最终必须有 PNG，优先 300 dpi；通常宽度不少于 1800 px，单栏图也不得小于 1200 px。像素分辨率与物理字号分别检查：Visio 规格默认按 6.5 英寸最终宽度换算，最终标题不小于 10 pt、节点不小于 8 pt、边标签不小于 7.5 pt，并保留 `.typography.json` 报告。
@@ -115,5 +122,6 @@ description: 为 CUMCM 数学建模论文规划、生成并审校模型框架图
 - 通用版式、标注、节点和重叠路径模式：[references/visual-design-patterns.md](references/visual-design-patterns.md)
 - Visio 自动化、源文件保留与导出：[references/visio-workflow.md](references/visio-workflow.md)
 - Python 静态图规范、中文字体与导出：[references/python-workflow.md](references/python-workflow.md)
+- 数值模型比较、坐标口径与数据追溯：[references/model-comparison.md](references/model-comparison.md)
 - 最终质量门禁：[references/qa-checklist.md](references/qa-checklist.md)
 - 本地优秀论文抽样与开源项目调研记录：[references/source-notes.md](references/source-notes.md)

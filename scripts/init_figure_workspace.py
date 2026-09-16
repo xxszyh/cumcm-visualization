@@ -47,6 +47,9 @@ def main() -> int:
                 "source",
                 "inputs",
             ],
+            "recommended_fields": [
+                "data_kind", "run_id", "run_status", "comparison", "error_definition",
+            ],
         },
     ):
         created.append(str(plan_path))
